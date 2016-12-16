@@ -1,5 +1,6 @@
 @prefix : <http://kero.hgc.jp/ontology/kero.owl#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix so: <http://purl.obolibrary.org/obo/> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -22,7 +23,8 @@
                                        
                                        dct:license <http://creativecommons.org/publicdomain/zero/1.0/> ;
                                        
-                                       owl:imports <http://semanticscience.org/ontology/sio/v1.34.0/sio-release.owl> ,
+                                       owl:imports <http://purl.obolibrary.org/obo/so/so-xp/releases/2015-11-24/so-xp.owl/so.owl> ,
+                                                   <http://semanticscience.org/ontology/sio/v1.34.0/sio-release.owl> ,
                                                    foaf: .
 
 
@@ -33,15 +35,31 @@
 #################################################################
 
 
-###  http://kero.hgc.jp/ontology/kero.owl#erthnity
+###  http://kero.hgc.jp/ontology/kero.owl#ethnicity
 
-:erthnity rdf:type owl:ObjectProperty ;
-          
-          rdfs:label "ethinicity" ;
-          
-          dc:description "ethnicity describes ethnic information" ;
-          
-          rdfs:domain foaf:Person .
+:ethnicity rdf:type owl:ObjectProperty ;
+           
+           rdfs:label "ethnicity" ;
+           
+           dc:description "ethnicity describes ethnic information" ;
+           
+           rdfs:domain foaf:Person .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#hasBindingSite
+
+:hasBindingSite rdf:type owl:ObjectProperty ;
+                
+                rdfs:label "has binding site" ;
+                
+                dc:description "hasBindingSite describes ChIP-seq data" ;
+                
+                rdfs:domain :ChIPseqDataset ;
+                
+                rdfs:subPropertyOf :hasData ;
+                
+                rdfs:range so:SO_0000306 .
 
 
 
@@ -56,16 +74,67 @@
 
 
 
+###  http://kero.hgc.jp/ontology/kero.owl#hasExpressionData
+
+:hasExpressionData rdf:type owl:ObjectProperty ;
+                   
+                   rdfs:label "has expression data" ;
+                   
+                   dc:description "hasExpressionData describes gene expression data by RNA-seq" ;
+                   
+                   rdfs:domain :RNAseqDataset ;
+                   
+                   rdfs:subPropertyOf :hasData ;
+                   
+                   rdfs:range so:SO_0000673 .
+
+
+
 ###  http://kero.hgc.jp/ontology/kero.owl#hasMethylationSite
 
 :hasMethylationSite rdf:type owl:ObjectProperty ;
                     
-                    rdfs:label "hasMethylationSite describes methyl-seq data" ,
-                               "has methylation site" ;
+                    rdfs:label "has methylation site" ;
+                    
+                    dc:description "hasMethylationSite describes methyl-seq data" ;
                     
                     rdfs:domain :MethylseqDataset ;
                     
-                    rdfs:subPropertyOf :hasData .
+                    rdfs:subPropertyOf :hasData ;
+                    
+                    rdfs:range so:SO_0000306 .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#hasTranscriptionStartSite
+
+:hasTranscriptionStartSite rdf:type owl:ObjectProperty ;
+                           
+                           rdfs:label "has Transcription Start Site" ;
+                           
+                           dc:description "hasTranscriptionStartSite describes TSS-seq data" ;
+                           
+                           rdfs:domain :TSSseqDataset ;
+                           
+                           rdfs:subPropertyOf :hasData ;
+                           
+                           rdfs:range so:SO_0000315 .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#hasVariationSite
+
+:hasVariationSite rdf:type owl:ObjectProperty ;
+                  
+                  rdfs:label "has variation site" ;
+                  
+                  dc:description "hasVariationSite describes sequence variation against reference genome" ;
+                  
+                  rdfs:domain :SNVDataset ;
+                  
+                  rdfs:subPropertyOf :hasData ;
+                  
+                  rdfs:range so:SO_0001483 .
 
 
 
@@ -95,6 +164,18 @@
 
 
 
+###  http://kero.hgc.jp/ontology/kero.owl#snp
+
+:snp rdf:type owl:ObjectProperty ;
+     
+     rdfs:label "snp" ;
+     
+     dc:description "link to dbSNP" ;
+     
+     rdfs:domain so:SO_0001483 .
+
+
+
 ###  http://kero.hgc.jp/ontology/kero.owl#species
 
 :species rdf:type owl:ObjectProperty ;
@@ -113,20 +194,372 @@
 
 #################################################################
 #
+#    Data properties
+#
+#################################################################
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#additionalInfomation
+
+:additionalInfomation rdf:type owl:DatatypeProperty ;
+                      
+                      rdfs:label "additional infomation" ;
+                      
+                      dc:description "additional infomation" ;
+                      
+                      rdfs:domain so:SO_0001483 ;
+                      
+                      rdfs:range xsd:string .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#alleleFrequency
+
+:alleleFrequency rdf:type owl:DatatypeProperty ;
+                 
+                 rdfs:label "allele frequency" ;
+                 
+                 dc:description "allele frequency" ;
+                 
+                 rdfs:domain so:SO_0001483 ;
+                 
+                 rdfs:range xsd:float .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#allelicDepth
+
+:allelicDepth rdf:type owl:DatatypeProperty ;
+              
+              rdfs:label "allelic depth" ;
+              
+              dc:description "allelic depth" ;
+              
+              rdfs:domain so:SO_0001483 ;
+              
+              rdfs:range xsd:string .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#antibodyFor
+
+:antibodyFor rdf:type owl:DatatypeProperty ;
+             
+             rdfs:label "antibody for" ;
+             
+             dc:description "antibodyFor describes an antibody using ChIP" ;
+             
+             rdfs:domain :ChIPseqDataset ;
+             
+             rdfs:range xsd:string .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#bin
+
+:bin rdf:type owl:DatatypeProperty ;
+     
+     rdfs:label "bin" ;
+     
+     rdfs:range xsd:integer ;
+     
+     rdfs:domain [ rdf:type owl:Class ;
+                   owl:unionOf ( :PromoterType
+                                 so:SO_0000306
+                                 so:SO_0000315
+                                 so:SO_0001697
+                               )
+                 ] .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#caNum
+
+:caNum rdf:type owl:DatatypeProperty ;
+       
+       rdfs:label "caNum" ;
+       
+       dc:description "cgNum describes tag count of CA site" ;
+       
+       rdfs:subPropertyOf :count ;
+       
+       rdfs:domain so:SO_0000306 ;
+       
+       rdfs:range xsd:integer .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#cgNum
+
+:cgNum rdf:type owl:DatatypeProperty ;
+       
+       rdfs:label "cgNum" ;
+       
+       dc:description "cgNum describes tag count of CG site" ;
+       
+       rdfs:subPropertyOf :count ;
+       
+       rdfs:domain so:SO_0000306 ;
+       
+       rdfs:range xsd:integer .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#count
+
+:count rdf:type owl:DatatypeProperty ;
+       
+       rdfs:label "count" ;
+       
+       dc:description "count describes number of tags" ;
+       
+       rdfs:range xsd:integer ;
+       
+       rdfs:domain [ rdf:type owl:Class ;
+                     owl:unionOf ( so:SO_0000315
+                                   so:SO_0000673
+                                   so:SO_0001697
+                                 )
+                   ] .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#genotype
+
+:genotype rdf:type owl:DatatypeProperty ;
+          
+          rdfs:label "genotype" ;
+          
+          dc:description "genotype" ;
+          
+          rdfs:domain so:SO_0001483 ;
+          
+          rdfs:range xsd:string .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#genotypeData
+
+:genotypeData rdf:type owl:DatatypeProperty ;
+              
+              rdfs:label "genotype data" ;
+              
+              dc:description "genotype data" ;
+              
+              rdfs:domain so:SO_0001483 ;
+              
+              rdfs:range xsd:string .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#genotypeQuality
+
+:genotypeQuality rdf:type owl:DatatypeProperty ;
+                 
+                 rdfs:label "genotype quality" ;
+                 
+                 dc:description "genotype quality" ;
+                 
+                 rdfs:domain so:SO_0001483 ;
+                 
+                 rdfs:range xsd:integer .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#ppm
+
+:ppm rdf:type owl:DatatypeProperty ;
+     
+     rdfs:label "ppm" ;
+     
+     dc:description "ppm" ;
+     
+     rdfs:domain so:SO_0000673 ;
+     
+     rdfs:range xsd:float .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#rep
+
+:rep rdf:type owl:DatatypeProperty ;
+     
+     rdfs:label "rep" ;
+     
+     dc:description "rep" ;
+     
+     rdfs:domain so:SO_0000315 ;
+     
+     rdfs:range xsd:integer .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#repgrp
+
+:repgrp rdf:type owl:DatatypeProperty ;
+        
+        rdfs:label "repgrp" ;
+        
+        dc:description "repgrp" ;
+        
+        rdfs:domain so:SO_0000315 ;
+        
+        rdfs:range xsd:string .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#repprm
+
+:repprm rdf:type owl:DatatypeProperty ;
+        
+        rdfs:label "repprm" ;
+        
+        dc:description "repprm" ;
+        
+        rdfs:domain so:SO_0000315 ;
+        
+        rdfs:range xsd:integer .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#rpkm
+
+:rpkm rdf:type owl:DatatypeProperty ;
+      
+      rdfs:label "rpkm" ;
+      
+      dc:description "Reads Per Kilobase of exon per Million mapped reads" ;
+      
+      rdfs:domain so:SO_0000673 ;
+      
+      rdfs:range xsd:float .
+
+
+
+
+
+#################################################################
+#
 #    Classes
 #
 #################################################################
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#ActivePromoter
+
+:ActivePromoter rdf:type owl:Class ;
+                
+                rdfs:label "Active promoter" ;
+                
+                rdfs:subClassOf :PromoterType ;
+                
+                dc:description "Active promoter" .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#ChIPseqDataset
+
+:ChIPseqDataset rdf:type owl:Class ;
+                
+                rdfs:label "ChIP-seq dataset" ;
+                
+                rdfs:subClassOf sio:SIO_000089 ;
+                
+                dc:description "ChIP-seq dataset" .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#ChromHMMDataset
+
+:ChromHMMDataset rdf:type owl:Class ;
+                 
+                 rdfs:label "ChromHMM dataset" ;
+                 
+                 rdfs:subClassOf sio:SIO_000089 ;
+                 
+                 dc:description "ChromHMM dataset" .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#InactiveRegion
+
+:InactiveRegion rdf:type owl:Class ;
+                
+                rdfs:label "Inactive region" ;
+                
+                rdfs:subClassOf :PromoterType ;
+                
+                dc:description "Inactive region" .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#InactiveRegionOrHeterochroma
+
+:InactiveRegionOrHeterochroma rdf:type owl:Class ;
+                              
+                              rdfs:label "Inactive region or heterochroma" ;
+                              
+                              rdfs:subClassOf :PromoterType ;
+                              
+                              dc:description "Inactive region or heterochroma" .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#LowOrNoSignal
+
+:LowOrNoSignal rdf:type owl:Class ;
+               
+               rdfs:label "Low or no signal" ;
+               
+               rdfs:subClassOf :PromoterType ;
+               
+               dc:description "Low or no signal" .
+
 
 
 ###  http://kero.hgc.jp/ontology/kero.owl#MethylseqDataset
 
 :MethylseqDataset rdf:type owl:Class ;
                   
-                  rdfs:label "Methyl-seq Dataset" ;
+                  rdfs:label "Methyl-seq dataset" ;
                   
                   rdfs:subClassOf sio:SIO_000089 ;
                   
-                  dc:description "Methyl-seq Dataset" .
+                  dc:description "Methyl-seq dataset" .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#PromoterType
+
+:PromoterType rdf:type owl:Class ;
+              
+              rdfs:label "Promoter type" ;
+              
+              dc:description "Promoter type" .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#RNAseqDataset
+
+:RNAseqDataset rdf:type owl:Class ;
+               
+               rdfs:label "RNA-seq dataset" ;
+               
+               rdfs:subClassOf sio:SIO_000089 ;
+               
+               dc:description "RNA-seq dataset" .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#SNVDataset
+
+:SNVDataset rdf:type owl:Class ;
+            
+            rdfs:label "SNV dataset" ;
+            
+            rdfs:subClassOf sio:SIO_000089 ;
+            
+            dc:description "SNV dataset" .
 
 
 
@@ -147,6 +580,66 @@
              rdfs:label "Species Type" ;
              
              dc:description "Species Type" .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#StrongEnhancer
+
+:StrongEnhancer rdf:type owl:Class ;
+                
+                rdfs:label "Strong enhancer" ;
+                
+                rdfs:subClassOf :PromoterType ;
+                
+                dc:description "Strong enhancer" .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#TSSseqDataset
+
+:TSSseqDataset rdf:type owl:Class ;
+               
+               rdfs:label "TSS-seq dataset" ;
+               
+               rdfs:subClassOf sio:SIO_000089 ;
+               
+               dc:description "TSS-seq dataset" .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#TranscriptionalElongation
+
+:TranscriptionalElongation rdf:type owl:Class ;
+                           
+                           rdfs:label "Transcriptional elongation" ;
+                           
+                           rdfs:subClassOf :PromoterType ;
+                           
+                           dc:description "Transcriptional elongation" .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#WeakEnhancer
+
+:WeakEnhancer rdf:type owl:Class ;
+              
+              rdfs:label "Weak enhancer" ;
+              
+              rdfs:subClassOf :PromoterType ;
+              
+              dc:description "Weak enhancer" .
+
+
+
+###  http://kero.hgc.jp/ontology/kero.owl#WeakOrPoisedPromoter
+
+:WeakOrPoisedPromoter rdf:type owl:Class ;
+                      
+                      rdfs:label "Weak or poised promoter" ;
+                      
+                      rdfs:subClassOf :PromoterType ;
+                      
+                      dc:description "Weak or poised promoter" .
 
 
 
