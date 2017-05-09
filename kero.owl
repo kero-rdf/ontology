@@ -15,7 +15,7 @@
                                        
                                        rdfs:label "KERO RDF ontology" ;
                                        
-                                       owl:versionInfo 0.01 ;
+                                       owl:versionInfo 0.02 ;
                                        
                                        dc:creator "Shin Kawano" ;
                                        
@@ -316,7 +316,8 @@
        rdfs:range xsd:integer ;
        
        rdfs:domain [ rdf:type owl:Class ;
-                     owl:unionOf ( so:SO_0000315
+                     owl:unionOf ( so:SO_0000306
+                                   so:SO_0000315
                                    so:SO_0000673
                                    so:SO_0001697
                                  )
